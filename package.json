@@ -1,13 +1,22 @@
 {
   "name": "react-native-rich-modal",
-  "version": "0.1.0",
-  "description": "A React Native rich modal for in‑app announcements, campaigns, and multi‑image popups.",
-  "main": "./lib/module/index.js",
-  "types": "./lib/typescript/src/index.d.ts",
+  "version": "1.0.0",
+  "description": "A React Native rich modal for in-app announcements, campaigns, and multi-image popups.",
+  "main": "./lib/commonjs/index.js",
+  "module": "./lib/module/index.js",
+  "react-native": "./src/index.tsx",
+  "types": "./lib/typescript/commonjs/src/index.d.ts",
   "exports": {
     ".": {
-      "source": "./src/index.tsx",
-      "types": "./lib/typescript/src/index.d.ts",
+      "react-native": "./src/index.tsx",
+      "import": {
+        "types": "./lib/typescript/module/src/index.d.ts",
+        "default": "./lib/module/index.js"
+      },
+      "require": {
+        "types": "./lib/typescript/commonjs/src/index.d.ts",
+        "default": "./lib/commonjs/index.js"
+      },
       "default": "./lib/module/index.js"
     },
     "./package.json": "./package.json"
@@ -15,35 +24,38 @@
   "files": [
     "src",
     "lib",
-    "android",
-    "ios",
-    "cpp",
-    "*.podspec",
-    "react-native.config.js",
-    "!ios/build",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.md",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__",
-    "!**/.*"
+    "!**/__mocks__"
   ],
   "scripts": {
     "example": "yarn workspace react-native-rich-modal-example",
     "clean": "del-cli lib",
-    "prepare": "bob build",
+    "prepare": "yarn clean && bob build",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint:fix": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "test": "jest",
+    "test:ci": "jest --runInBand --watchman=false",
+    "licenses:generate": "node ./scripts/generate-third-party-licenses.mjs",
+    "licenses:generate:all": "node ./scripts/generate-third-party-licenses.mjs --scope=all",
+    "pack:check": "npm pack --dry-run --cache /tmp/npm-cache",
+    "release:verify": "yarn licenses:generate && yarn lint && yarn typecheck && yarn test:ci && yarn pack:check",
+    "prepublishOnly": "yarn release:verify",
     "release": "release-it --only-version"
   },
   "keywords": [
-    "react-native",
+    "android",
+    "campaign",
+    "carousel",
+    "in-app",
     "ios",
-    "android"
+    "modal",
+    "popup",
+    "react-native"
   ],
   "repository": {
     "type": "git",
@@ -55,37 +67,52 @@
     "url": "https://github.com/orcunorcun/react-native-rich-modal/issues"
   },
   "homepage": "https://github.com/orcunorcun/react-native-rich-modal#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.8.1",
-    "@eslint/compat": "^1.3.2",
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.35.0",
+    "@commitlint/config-conventional": "19.8.1",
+    "@eslint/compat": "1.3.2",
+    "@eslint/eslintrc": "3.3.1",
+    "@eslint/js": "9.35.0",
     "@react-native/babel-preset": "0.83.0",
     "@react-native/eslint-config": "0.83.0",
-    "@release-it/conventional-changelog": "^10.0.1",
-    "@types/jest": "^29.5.14",
-    "@types/react": "^19.1.12",
-    "commitlint": "^19.8.1",
-    "del-cli": "^6.0.0",
-    "eslint": "^9.35.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^29.7.0",
-    "lefthook": "^2.0.3",
-    "prettier": "^2.8.8",
+    "@release-it/conventional-changelog": "10.0.1",
+    "@types/jest": "29.5.14",
+    "@types/react": "19.1.12",
+    "commitlint": "19.8.1",
+    "del-cli": "6.0.0",
+    "eslint": "9.35.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-import-resolver-typescript": "3.6.1",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-unused-imports": "3.2.0",
+    "jest": "29.7.0",
+    "lefthook": "2.0.3",
+    "prettier": "2.8.8",
     "react": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-builder-bob": "^0.40.13",
-    "release-it": "^19.0.4",
-    "turbo": "^2.5.6",
-    "typescript": "^5.9.2"
+    "react-native-builder-bob": "0.40.13",
+    "react-native-reanimated": "4.1.1",
+    "react-native-worklets": "0.5.1",
+    "release-it": "19.0.4",
+    "typescript": "5.9.2"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=18.2.0 <20",
+    "react-native": ">=0.76.0 <1",
+    "react-native-fast-image": ">=8.0.0",
+    "react-native-reanimated": ">=4.0.0",
+    "react-native-worklets": ">=0.5.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-fast-image": {
+      "optional": true
+    }
   },
   "workspaces": [
     "example"
@@ -95,6 +122,12 @@
     "source": "src",
     "output": "lib",
     "targets": [
+      [
+        "commonjs",
+        {
+          "esm": true
+        }
+      ],
       [
         "module",
         {
@@ -108,13 +141,6 @@
         }
       ]
     ]
-  },
-  "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
   },
   "jest": {
     "preset": "react-native",
@@ -149,7 +175,7 @@
   },
   "create-react-native-library": {
     "type": "library",
-    "languages": "js",
+    "languages": "ts",
     "tools": [
       "eslint",
       "jest",
@@ -157,5 +183,6 @@
       "release-it"
     ],
     "version": "0.57.2"
-  }
+  },
+  "sideEffects": false
 }
