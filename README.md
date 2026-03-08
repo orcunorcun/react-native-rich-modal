@@ -11,26 +11,52 @@ A React Native rich modal for in-app announcements, campaigns, and multi-image p
 Using yarn (recommended):
 
 ```sh
-yarn add react-native-rich-modal react-native-reanimated react-native-worklets
+yarn add react-native-rich-modal react-native-reanimated
 ```
 
 Using npm:
 
 ```sh
-npm install react-native-rich-modal react-native-reanimated react-native-worklets
+npm install react-native-rich-modal react-native-reanimated
+```
+
+### Compatibility
+
+| Stack | React Native Reanimated | `react-native-worklets` | Babel plugin (last) |
+| --- | --- | --- | --- |
+| Legacy | `3.x` | not required | `react-native-reanimated/plugin` |
+| Modern (New Architecture) | `4.x` | required | `react-native-worklets/plugin` |
+
+If you are on Reanimated `4.x`, install Worklets:
+
+```sh
+yarn add react-native-worklets
+# or npm install react-native-worklets
 ```
 
 ### Additional Setup
 
-**React Native Reanimated 4+** requires adding the Worklets Babel plugin (must be the last plugin):
+Add the correct plugin based on your Reanimated major version (must be the last plugin).
+
+Reanimated 3.x:
 
 ```js
-// babel.config.js
+module.exports = {
+  presets: ['module:@react-native/babel-preset'],
+  plugins: ['react-native-reanimated/plugin'],
+};
+```
+
+Reanimated 4.x:
+
+```js
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: ['react-native-worklets/plugin'],
 };
 ```
+
+Use only one of these plugins in the same Babel config.
 
 Optional: for image caching, you can add `react-native-fast-image`.
 
