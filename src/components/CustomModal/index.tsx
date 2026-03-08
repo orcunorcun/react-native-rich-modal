@@ -60,6 +60,8 @@ export interface CustomModalProps {
   contentStyle?: StyleProp<ViewStyle>;
   overlayStyle?: StyleProp<ViewStyle>;
   statusBarTranslucent?: boolean;
+  testID?: string;
+  backdropTestID?: string;
 }
 
 const CustomModal = ({
@@ -83,6 +85,8 @@ const CustomModal = ({
   contentStyle,
   overlayStyle,
   statusBarTranslucent = true,
+  testID,
+  backdropTestID,
 }: CustomModalProps) => {
   const { width, height } = useWindowDimensions();
   const [isMounted, setIsMounted] = useState(visible);
@@ -238,9 +242,9 @@ const CustomModal = ({
         animationType="none"
         presentationStyle="overFullScreen"
         onRequestClose={requestClose}>
-        <View style={styles.modalRoot}>
+        <View style={styles.modalRoot} testID={testID}>
           <ReanimatedView style={combinedOverlayStyle}>
-            <Pressable style={styles.overlayPressable} onPress={handleBackdropPress} />
+            <Pressable style={styles.overlayPressable} onPress={handleBackdropPress} testID={backdropTestID} />
           </ReanimatedView>
           <View style={[styles.container, containerAlignStyle, wrapperStyle]} pointerEvents="box-none">
             <ReanimatedView style={combinedContentStyle}>{children}</ReanimatedView>
