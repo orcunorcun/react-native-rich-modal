@@ -48,9 +48,6 @@ export type CustomCarouselProps<T> = {
   loop?: boolean;
   autoPlay?: boolean;
   autoPlayInterval?: number;
-  testID?: string;
-  getItemTestID?: (index: number) => string;
-  getDotTestID?: (index: number) => string;
 };
 
 const CustomCarousel = <T,>({
@@ -77,9 +74,6 @@ const CustomCarousel = <T,>({
   loop = true,
   autoPlay = false,
   autoPlayInterval,
-  testID,
-  getItemTestID,
-  getDotTestID,
 }: CustomCarouselProps<T>) => {
   const flatListRef = useRef<FlatList<T> | null>(null);
   const activeIndexRef = useRef(0);
@@ -216,7 +210,6 @@ const CustomCarousel = <T,>({
             inactiveColor={inactiveDotColor}
             size={dotSize}
             activeWidth={activeDotWidth}
-            testID={getDotTestID?.(index)}
           />
         ))}
       </View>
@@ -231,17 +224,12 @@ const CustomCarousel = <T,>({
     inactiveDotColor,
     progress,
     showDots,
-    getDotTestID,
   ]);
 
   const keyExtractor = useCallback((_: T, index: number) => `carousel-item-${index}`, []);
   const renderCarouselItem = useCallback<ListRenderItem<T>>(
-    ({ item, index }) => (
-      <View style={[styles.item, { width, height }]} testID={getItemTestID?.(index)}>
-        {renderItem({ item, index })}
-      </View>
-    ),
-    [getItemTestID, height, renderItem, width],
+    ({ item, index }) => <View style={[styles.item, { width, height }]}>{renderItem({ item, index })}</View>,
+    [height, renderItem, width],
   );
   const getItemLayout = useCallback(
     (_: ArrayLike<T> | null | undefined, index: number) => ({
@@ -257,7 +245,7 @@ const CustomCarousel = <T,>({
   }
 
   return (
-    <View style={wrapperStyle} testID={testID}>
+    <View style={wrapperStyle}>
       <FlatList
         ref={flatListRef}
         horizontal

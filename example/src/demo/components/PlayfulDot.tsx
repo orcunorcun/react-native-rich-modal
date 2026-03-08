@@ -4,13 +4,7 @@ import { styles } from '../styles';
 
 import type { RichModalRenderCarouselDotProps } from 'react-native-rich-modal';
 
-export const PlayfulDot = ({
-  index,
-  progress,
-  activeColor,
-  inactiveColor,
-  testID,
-}: RichModalRenderCarouselDotProps) => {
+export const PlayfulDot = ({ index, progress, activeColor, inactiveColor }: RichModalRenderCarouselDotProps) => {
   const animatedStyle = useAnimatedStyle(() => {
     const distance = Math.abs(progress.value - index);
     return {
@@ -24,5 +18,5 @@ export const PlayfulDot = ({
     };
   });
 
-  return <Animated.View testID={testID} style={[styles.customDot, animatedStyle]} />;
+  return <Animated.View style={[styles.customDot, animatedStyle]} />;
 };

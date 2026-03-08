@@ -16,7 +16,6 @@ export interface CarouselDotProps {
   inactiveColor?: string;
   size?: number;
   activeWidth?: number;
-  testID?: string;
 }
 
 type DotAnimatedStyle = {
@@ -43,7 +42,6 @@ const CarouselDot = ({
   inactiveColor = Colors.dukeBlue,
   size = DEFAULT_DOT_SIZE,
   activeWidth = DEFAULT_ACTIVE_DOT_WIDTH,
-  testID,
 }: CarouselDotProps) => {
   const inputRange = [index - 1, index, index + 1];
   const widthOutputRange = [size, activeWidth, size];
@@ -65,7 +63,7 @@ const CarouselDot = ({
 
   const dotStyle: StyleProp<ViewStyle> = [styles.dotBase, dotStaticStyle, animatedDotStyle];
 
-  return <ReanimatedView style={dotStyle} testID={testID} />;
+  return <ReanimatedView style={dotStyle} />;
 };
 
 const styles = StyleSheet.create({

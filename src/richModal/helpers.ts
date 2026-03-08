@@ -111,28 +111,10 @@ export type PopupResolvedSettings = {
   hideCloseButton: boolean;
 };
 
-export type RichModalResolvedTestIDs = {
-  modal: string;
-  backdrop: string;
-  container: string;
-  content: string;
-  closeButton: string;
-  checkboxRow: string;
-  checkboxLabel: string;
-  title: string;
-  message: string;
-  carousel: string;
-  carouselItemPrefix: string;
-  carouselDotPrefix: string;
-  imagePrefix: string;
-  placeholderPrefix: string;
-};
-
 export const ASPECT_RATIO_EPSILON = 0.0001;
 export const FULLSCREEN_OVERLAY_INSET = 12;
 export const FULLSCREEN_TEXT_MAX_HEIGHT_RATIO = 0.45;
 export const DEFAULT_MAX_ZOOM_SCALE = 3;
-export const DEFAULT_TEST_ID_PREFIX = 'rich-modal';
 
 const DEFAULT_MODAL_INSETS: ModalInsets = {
   top: 0,
@@ -157,27 +139,6 @@ export const normalizeImageResizeMode = (value: PopupImageResizeMode | null | un
   value === 'cover' ? 'cover' : 'contain';
 export const normalizeMaxZoomScale = (value: number | null | undefined, fallback: number): number =>
   typeof value === 'number' && Number.isFinite(value) && value > 1 ? value : fallback;
-export const buildIndexedTestID = (prefix: string, index: number): string => `${prefix}-${index}`;
-export const resolveRichModalTestIDs = (prefixValue?: string | null): RichModalResolvedTestIDs => {
-  const prefix = normalizeString(prefixValue) ?? DEFAULT_TEST_ID_PREFIX;
-
-  return {
-    modal: prefix,
-    backdrop: `${prefix}-backdrop`,
-    container: `${prefix}-container`,
-    content: `${prefix}-content`,
-    closeButton: `${prefix}-close-button`,
-    checkboxRow: `${prefix}-checkbox-row`,
-    checkboxLabel: `${prefix}-checkbox-label`,
-    title: `${prefix}-title`,
-    message: `${prefix}-message`,
-    carousel: `${prefix}-carousel`,
-    carouselItemPrefix: `${prefix}-carousel-item`,
-    carouselDotPrefix: `${prefix}-carousel-dot`,
-    imagePrefix: `${prefix}-image`,
-    placeholderPrefix: `${prefix}-placeholder`,
-  };
-};
 
 export const getFullscreenOverlayOffsets = ({
   hasImageDots,

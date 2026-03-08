@@ -14,7 +14,6 @@ type CustomImageProps = {
   cache?: boolean;
   useUserAgent?: boolean;
   userAgent?: string;
-  testID?: string;
 };
 
 let FastImageComponent: any = null;
@@ -55,7 +54,6 @@ const CustomImage = ({
   cache = true,
   useUserAgent = false,
   userAgent,
-  testID,
 }: CustomImageProps) => {
   const imageSrc = useMemo(() => {
     if (!srcProp) {
@@ -170,7 +168,7 @@ const CustomImage = ({
 
   if (shouldShowPlaceholder) {
     return (
-      <View testID={testID} style={[styles.placeholder, styleProp as StyleProp<ViewStyle>, placeholderSizeStyle]}>
+      <View style={[styles.placeholder, styleProp as StyleProp<ViewStyle>, placeholderSizeStyle]}>
         <Text style={styles.placeholderText}>No image found</Text>
       </View>
     );
@@ -190,7 +188,6 @@ const CustomImage = ({
         resizeMode={resizeModeProp}
         onLoad={handleImageLoad}
         onError={handleError}
-        testID={testID}
       />
     );
   }
@@ -208,7 +205,6 @@ const CustomImage = ({
       resizeMode={resolveFastImageResizeMode(resizeModeProp)}
       onLoad={handleFastImageLoad}
       onError={handleError}
-      testID={testID}
     />
   );
 };

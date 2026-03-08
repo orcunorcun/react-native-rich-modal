@@ -20,7 +20,6 @@ interface CustomTouchablePropsType {
   touchFeedback?: boolean;
   underlayColor?: string;
   hitSlop?: Insets | number;
-  testID?: string;
 }
 
 const CustomTouchable = ({
@@ -37,7 +36,6 @@ const CustomTouchable = ({
   touchFeedback = false,
   underlayColor = 'rgba(0,0,0,0.1)',
   hitSlop,
-  testID,
 }: CustomTouchablePropsType) => {
   // create ref
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -112,8 +110,7 @@ const CustomTouchable = ({
       onLongPress={hasLongPressHandler ? handleLongPress : undefined}
       delayLongPress={hasLongPressHandler ? delayLongPress : undefined}
       disabled={disabled}
-      hitSlop={hitSlop}
-      testID={testID}>
+      hitSlop={hitSlop}>
       <Animated.View
         style={[
           styles.container,

@@ -16,8 +16,6 @@ type Props = {
   resolvedMessageColor: string;
   styleOverrides?: RichModalStyleOverrides;
   fullscreenTextBottom: number;
-  titleTestID: string;
-  messageTestID: string;
 };
 
 const RichModalTextSection = ({
@@ -31,8 +29,6 @@ const RichModalTextSection = ({
   resolvedMessageColor,
   styleOverrides,
   fullscreenTextBottom,
-  titleTestID,
-  messageTestID,
 }: Props) => {
   if (!hasText) {
     return null;
@@ -54,19 +50,12 @@ const RichModalTextSection = ({
         alwaysBounceVertical={false}
         keyboardShouldPersistTaps="handled">
         {titleText ? (
-          <Text
-            testID={titleTestID}
-            style={[styles.title, { color: resolvedTitleColor }, styleOverrides?.title]}
-            numberOfLines={3}>
+          <Text style={[styles.title, { color: resolvedTitleColor }, styleOverrides?.title]} numberOfLines={3}>
             {titleText}
           </Text>
         ) : null}
         {messageText ? (
-          <Text
-            testID={messageTestID}
-            style={[styles.message, { color: resolvedMessageColor }, styleOverrides?.message]}>
-            {messageText}
-          </Text>
+          <Text style={[styles.message, { color: resolvedMessageColor }, styleOverrides?.message]}>{messageText}</Text>
         ) : null}
       </ScrollView>
     </View>

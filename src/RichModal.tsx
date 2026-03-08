@@ -30,7 +30,6 @@ import {
   normalizeMaxZoomScale,
   normalizeOpacity,
   normalizeString,
-  resolveRichModalTestIDs,
   resolveImageSourceByKey,
   resolveInsets,
   resolveMessageForActiveImage,
@@ -128,7 +127,6 @@ const RichModal = ({
   closeIcon,
   checkboxCheckedIcon,
   checkboxUncheckedIcon,
-  testIDPrefix,
   theme: themeProp,
   styleOverrides,
   components,
@@ -175,7 +173,6 @@ const RichModal = ({
   const renderImageOverride = components?.renderImage;
   const renderPlaceholderOverride = components?.renderPlaceholder;
   const renderCheckboxRowOverride = components?.renderCheckboxRow;
-  const testIDs = useMemo(() => resolveRichModalTestIDs(testIDPrefix), [testIDPrefix]);
 
   const imageBase = normalizeString(imageBaseUrl);
 
@@ -772,11 +769,6 @@ const RichModal = ({
         styleOverrides={styleOverrides}
         animatedMaskStyle={animatedMaskStyle}
         fullscreenDotsBottom={fullscreenOverlayOffsets.dotsBottom}
-        carouselTestID={testIDs.carousel}
-        carouselItemTestIDPrefix={testIDs.carouselItemPrefix}
-        carouselDotTestIDPrefix={testIDs.carouselDotPrefix}
-        imageTestIDPrefix={testIDs.imagePrefix}
-        placeholderTestIDPrefix={testIDs.placeholderPrefix}
       />
       <RichModalTextSection
         hasText={hasText}
@@ -789,8 +781,6 @@ const RichModal = ({
         resolvedMessageColor={resolvedMessageColor}
         styleOverrides={styleOverrides}
         fullscreenTextBottom={fullscreenOverlayOffsets.textBottom}
-        titleTestID={testIDs.title}
-        messageTestID={testIDs.message}
       />
     </>
   );
@@ -801,13 +791,11 @@ const RichModal = ({
       onPress: handleDismiss,
       icon: closeIconNode,
       popup: currentPopup,
-      testID: testIDs.closeButton,
     })
   ) : (
     <CustomTouchable
       onPress={handleDismiss}
       hitSlop={HIT_SLOP}
-      testID={testIDs.closeButton}
       style={[
         styles.closeButton,
         {
@@ -830,13 +818,10 @@ const RichModal = ({
         uncheckedIcon: UncheckedIconComponent,
         checkedColor: theme.checkboxActiveColor,
         uncheckedColor: theme.checkboxInactiveColor,
-        testID: testIDs.checkboxRow,
-        labelTestID: testIDs.checkboxLabel,
       })
     ) : (
       <CustomTouchable
         onPress={handleToggleDontShowAgain}
-        testID={testIDs.checkboxRow}
         style={[
           styles.checkRow,
           { backgroundColor: resolvedCheckRowBackgroundColor },
@@ -858,7 +843,6 @@ const RichModal = ({
           hideRipple={true}
         />
         <Text
-          testID={testIDs.checkboxLabel}
           style={[styles.checkText, { color: theme.checkTextColor }, styleOverrides?.checkText]}
           numberOfLines={1}
           ellipsizeMode="tail">
@@ -879,11 +863,8 @@ const RichModal = ({
       closeOnBackdropPress={popupCloseOnBackdropPress}
       closeOnBackButton={popupCloseOnBackButton}
       wrapperStyle={modalWrapperStyle}
-      contentStyle={[styles.modalContent, styleOverrides?.modalContent]}
-      testID={testIDs.modal}
-      backdropTestID={testIDs.backdrop}>
+      contentStyle={[styles.modalContent, styleOverrides?.modalContent]}>
       <View
-        testID={testIDs.container}
         style={[
           styles.container,
           { width: contentWidth, height: isFullscreenImageMode ? maxImageHeight : undefined },
@@ -908,7 +889,6 @@ const RichModal = ({
         {shouldWrapContentWithLink ? (
           <CustomTouchable
             onPress={handleOpenUrl}
-            testID={testIDs.content}
             style={[
               styles.contentWrapper,
               isFullscreenImageMode ? styles.contentWrapperFullscreen : null,
@@ -919,7 +899,6 @@ const RichModal = ({
           </CustomTouchable>
         ) : (
           <View
-            testID={testIDs.content}
             style={[
               styles.contentWrapper,
               isFullscreenImageMode ? styles.contentWrapperFullscreen : null,
