@@ -236,9 +236,31 @@ export default App;
 | `closeIcon`             | `ComponentType<{ size?, color? }>`  | built-in         | Custom close icon component.                                                              |
 | `checkboxCheckedIcon`   | `ComponentType<{ size?, color? }>`  | built-in         | Custom checked icon component for the toggle row.                                         |
 | `checkboxUncheckedIcon` | `ComponentType<{ size?, color? }>`  | built-in         | Custom unchecked icon component for the toggle row.                                       |
+| `testIDPrefix`          | `string`                            | `"rich-modal"`   | Base prefix for generated test IDs used by modal/backdrop/content/close/checkbox/text/carousel nodes. |
 | `theme`                 | `RichModalTheme`                    | built-in theme   | Override colors and overlay opacity.                                                      |
 | `styleOverrides`        | `RichModalStyleOverrides`           | `undefined`      | Override styles for modal sections (text card, row, dots, etc.).                         |
 | `components`            | `RichModalComponents`               | `undefined`      | Override renderers (`closeButton`, `dot`, `image`, `placeholder`, `checkboxRow`).        |
+
+### Test IDs
+
+If `testIDPrefix="rich-modal"` (default), RichModal generates:
+
+- `rich-modal` (modal root)
+- `rich-modal-backdrop`
+- `rich-modal-container`
+- `rich-modal-content`
+- `rich-modal-close-button`
+- `rich-modal-checkbox-row`
+- `rich-modal-checkbox-label`
+- `rich-modal-title`
+- `rich-modal-message`
+- `rich-modal-carousel`
+- `rich-modal-carousel-item-0`, `rich-modal-carousel-item-1`, ...
+- `rich-modal-carousel-dot-0`, `rich-modal-carousel-dot-1`, ...
+- `rich-modal-image-0`, `rich-modal-image-1`, ...
+- `rich-modal-placeholder-0`, `rich-modal-placeholder-1`, ...
+
+When you provide custom renderers via `components`, each renderer now also receives an optional `testID` (and checkbox row also gets `labelTestID`) so you can preserve the same selectors.
 
 ## Filtering Rules
 

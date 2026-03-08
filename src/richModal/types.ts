@@ -82,6 +82,7 @@ export type RichModalRenderCloseButtonProps = {
   onPress: () => void;
   icon: ReactNode;
   popup: PopupItemType;
+  testID?: string;
 };
 
 export type RichModalRenderCarouselDotProps = {
@@ -90,6 +91,7 @@ export type RichModalRenderCarouselDotProps = {
   progress: SharedValue<number>;
   activeColor: string;
   inactiveColor: string;
+  testID?: string;
 };
 
 export type RichModalRenderImageProps = {
@@ -104,12 +106,14 @@ export type RichModalRenderImageProps = {
   onLoadDimensions: (width: number, height: number) => void;
   useUserAgent: boolean;
   userAgent?: string;
+  testID?: string;
 };
 
 export type RichModalRenderPlaceholderProps = {
   image: RichModalPopupImage;
   popup: PopupItemType;
   label: string;
+  testID?: string;
 };
 
 export type RichModalRenderCheckboxRowProps = {
@@ -120,6 +124,8 @@ export type RichModalRenderCheckboxRowProps = {
   uncheckedIcon: RichModalIconComponent;
   checkedColor: string;
   uncheckedColor: string;
+  testID?: string;
+  labelTestID?: string;
 };
 
 export type RichModalComponents = {
@@ -171,6 +177,7 @@ export type RichModalProps = {
   closeIcon?: RichModalIconComponent;
   checkboxCheckedIcon?: RichModalIconComponent;
   checkboxUncheckedIcon?: RichModalIconComponent;
+  testIDPrefix?: string;
   theme?: RichModalTheme;
   styleOverrides?: RichModalStyleOverrides;
   components?: RichModalComponents;
