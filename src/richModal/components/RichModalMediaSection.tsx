@@ -7,6 +7,7 @@ import CarouselDot from '../../components/CustomCarousel/CarouselDot';
 import CustomImage from '../../components/CustomImage';
 import CustomTouchable from '../../components/CustomTouchable';
 import CustomZoomableView from '../../components/CustomZoomableView';
+import { buildIndexedTestID } from '../helpers';
 import { styles } from '../styles';
 
 import type { PopupItemType } from '../../types';
@@ -67,6 +68,11 @@ type Props = {
   styleOverrides?: RichModalStyleOverrides;
   animatedMaskStyle: StyleProp<ViewStyle>;
   fullscreenDotsBottom: number;
+  carouselTestID: string;
+  carouselItemTestIDPrefix: string;
+  carouselDotTestIDPrefix: string;
+  imageTestIDPrefix: string;
+  placeholderTestIDPrefix: string;
 };
 
 const ReanimatedView = Animated.View as unknown as ComponentType<ReanimatedViewProps>;
@@ -110,15 +116,23 @@ const RichModalMediaSection = ({
   styleOverrides,
   animatedMaskStyle,
   fullscreenDotsBottom,
+  carouselTestID,
+  carouselItemTestIDPrefix,
+  carouselDotTestIDPrefix,
+  imageTestIDPrefix,
+  placeholderTestIDPrefix,
 }: Props) => {
   // Each carousel item can render a placeholder, a custom image renderer, or the default image node.
   const renderCarouselItem = useCallback(
-    ({ item }: { item: RichModalPopupImage }) => {
+    ({ item, index }: { item: RichModalPopupImage; index: number }) => {
       const itemSize = imageSizes[item.key] ?? {
         width: contentWidth,
         height: maxImageHeight,
       };
       const itemPlaceholderSize = Math.min(itemSize.width, itemSize.height);
+      const imageTestID = buildIndexedTestID(imageTestIDPrefix, index);
+      const placeholderTestID = buildIndexedTestID(placeholderTestIDPrefix, index);
+      const carouselItemTestID = buildIndexedTestID(carouselItemTestIDPrefix, index);
       const handleItemError = () => onImageError(item.key);
       const handleItemDimensions = (width: number, height: number) => onImageLoadDimensions(item.key, width, height);
 
@@ -129,10 +143,12 @@ const RichModalMediaSection = ({
             image: item,
             popup,
             label: labelsMissingImage,
+            testID: placeholderTestID,
           });
         } else {
           content = (
             <View
+              testID={placeholderTestID}
               style={[
                 styles.placeholder,
                 {
@@ -167,6 +183,7 @@ const RichModalMediaSection = ({
           onLoadDimensions: handleItemDimensions,
           useUserAgent,
           userAgent,
+          testID: imageTestID,
         });
       } else {
         const imageNode = (
@@ -180,6 +197,7 @@ const RichModalMediaSection = ({
             userAgent={userAgent}
             handleError={handleItemError}
             onLoadDimensions={handleItemDimensions}
+            testID={imageTestID}
           />
         );
 
@@ -201,7 +219,10 @@ const RichModalMediaSection = ({
       }
 
       const finalContent = shouldUseItemLinkTouchable ? (
-        <CustomTouchable onPress={onOpenUrl} style={styles.carouselItemTouchable}>
+        <CustomTouchable
+          onPress={onOpenUrl}
+          style={styles.carouselItemTouchable}
+          testID={`${carouselItemTestID}-touchable`}>
           {content}
         </CustomTouchable>
       ) : (
@@ -231,6 +252,9 @@ const RichModalMediaSection = ({
       popup,
       popupMaxZoomScale,
       popupPanZoomEnabled,
+      carouselItemTestIDPrefix,
+      imageTestIDPrefix,
+      placeholderTestIDPrefix,
       renderImageOverride,
       renderPlaceholderOverride,
       resolvedImageResizeMode,
@@ -277,6 +301,8 @@ const RichModalMediaSection = ({
           progressSharedValue={carouselProgress}
           onSnapToItem={onSnapToItem}
           onScrollStateChange={onScrollStateChange}
+          testID={carouselTestID}
+          getItemTestID={index => buildIndexedTestID(carouselItemTestIDPrefix, index)}
           wrapperStyle={[
             styles.carouselViewport,
             { width: contentWidth, height: maxImageHeight },
@@ -302,6 +328,7 @@ const RichModalMediaSection = ({
                   progress: carouselProgress,
                   activeColor: carouselDotActiveColor,
                   inactiveColor: carouselDotInactiveColor,
+                  testID: buildIndexedTestID(carouselDotTestIDPrefix, index),
                 })
               ) : (
                 <CarouselDot
@@ -310,6 +337,7 @@ const RichModalMediaSection = ({
                   length={imageCount}
                   activeColor={carouselDotActiveColor}
                   inactiveColor={carouselDotInactiveColor}
+                  testID={buildIndexedTestID(carouselDotTestIDPrefix, index)}
                 />
               )}
             </Fragment>

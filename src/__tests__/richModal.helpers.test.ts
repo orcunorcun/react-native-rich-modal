@@ -8,6 +8,7 @@ import {
   getLocalizedImageKeys,
   getLocalizedPopupContent,
   isRemoteUrl,
+  resolveRichModalTestIDs,
   resolveMessageForActiveImage,
   resolveTitleForActiveImage,
   resolveImageSourceByKey,
@@ -212,6 +213,39 @@ describe('isRemoteUrl', () => {
     expect(isRemoteUrl('content://media/external/images/1')).toBe(false);
     expect(isRemoteUrl('data:image/png;base64,abcd')).toBe(false);
     expect(isRemoteUrl('popup/en/1.jpg')).toBe(false);
+  });
+});
+
+describe('resolveRichModalTestIDs', () => {
+  it('uses default IDs when prefix is missing', () => {
+    const testIDs = resolveRichModalTestIDs();
+
+    expect(testIDs).toMatchObject({
+      modal: 'rich-modal',
+      backdrop: 'rich-modal-backdrop',
+      closeButton: 'rich-modal-close-button',
+      carouselItemPrefix: 'rich-modal-carousel-item',
+      carouselDotPrefix: 'rich-modal-carousel-dot',
+      imagePrefix: 'rich-modal-image',
+      placeholderPrefix: 'rich-modal-placeholder',
+    });
+  });
+
+  it('trims and applies custom prefixes', () => {
+    const testIDs = resolveRichModalTestIDs('  campaign-popup  ');
+
+    expect(testIDs).toMatchObject({
+      modal: 'campaign-popup',
+      content: 'campaign-popup-content',
+      title: 'campaign-popup-title',
+      message: 'campaign-popup-message',
+    });
+  });
+
+  it('falls back to default for empty-like prefix values', () => {
+    expect(resolveRichModalTestIDs('   ').modal).toBe('rich-modal');
+    expect(resolveRichModalTestIDs('null').modal).toBe('rich-modal');
+    expect(resolveRichModalTestIDs('undefined').modal).toBe('rich-modal');
   });
 });
 
