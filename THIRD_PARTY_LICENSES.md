@@ -1,6 +1,6 @@
 # Third-Party Licenses
 
-Generated at: 2026-02-16T09:42:06.327Z
+Generated at: 2026-03-08T16:54:51.300Z
 Scope: direct runtime requirements (dependencies + optionalDependencies + peerDependencies)
 
 Total packages: 4
@@ -20,7 +20,7 @@ Packages with unknown license: 0
 | react | >=18.2.0 <20 |
 | react-native | >=0.76.0 <1 |
 | react-native-fast-image | >=8.0.0 |
-| react-native-reanimated | >=4.0.0 |
+| react-native-reanimated | >=3.0.0 <5 |
 | react-native-worklets | >=0.5.0 |
 
 > This file is auto-generated from package metadata.
